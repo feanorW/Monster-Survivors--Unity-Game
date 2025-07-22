@@ -194,9 +194,12 @@ MonoBehaviour:
   moveSpeed: 1.5
   destroyEffect: {fileID: 5929090320753441135, guid: 99cb6e5950f461a4f81247863f4aee6c, type: 3}
   damage: 2
-  health: 10
+  health: 8
   experienceToGive: 2
   pushTime: 0.5
+  dropHpPrefab: {fileID: 4809990375885533619, guid: 79b69c11179472a4c9980953a7f85e43, type: 3}
+  dropHpChance: 0.05
+  expPrefab: {fileID: 6740814560263697424, guid: 7bbf056a833fe114481b41543f16fc26, type: 3}
 --- !u!1 &6549768848192638327
 GameObject:
   m_ObjectHideFlags: 0

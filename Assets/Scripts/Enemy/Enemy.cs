@@ -14,7 +14,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float pushTime;
     private float pushCounter;
 
-    // Update is called once per frame
+    [SerializeField] private GameObject dropHpPrefab;
+    [SerializeField][Range(0f, 1f)] private float dropHpChance;
+
+    [SerializeField] private GameObject expPrefab;
+
     void FixedUpdate()
     {
         if (PlayerController.Instance.gameObject.activeSelf)
@@ -72,13 +76,11 @@ public class Enemy : MonoBehaviour
 
         if (health <= 0)
         {
-            AudioManager.Instance.PlayModifiedSound(AudioManager.Instance.enemyDie); // Play enemy die sound
+            AudioManager.Instance.PlayModifiedSound(AudioManager.Instance.enemyDie);
+            DestroyEffect();
             Destroy(gameObject);
-            if (destroyEffect != null)
-            {
-                Instantiate(destroyEffect, transform.position, transform.rotation);
-            }
-            PlayerController.Instance.GetExperience(experienceToGive); // Give experience to the player
+            Drop();
+            DropExperienceObject(experienceToGive);
         }
         else
         {
@@ -91,5 +93,30 @@ public class Enemy : MonoBehaviour
         spriteRenderer.color = Color.red; // Change color to red
         yield return new WaitForSeconds(0.1f); // Wait for a short duration
         spriteRenderer.color = Color.white; // Change color back to white
+    }
+
+    private void DestroyEffect()
+    {
+        if (destroyEffect == null) return;
+
+        Instantiate(destroyEffect, transform.position, transform.rotation);
+    }
+
+    private void Drop()
+    {
+        if (Random.value <= dropHpChance && dropHpPrefab !=null)
+        {
+            Instantiate(dropHpPrefab, transform.position, Quaternion.identity);
+        }
+    }
+
+    private void DropExperienceObject(int expAmount)
+    {
+        if (expPrefab == null || expAmount <= 0) return;
+
+        for (int i = 0; i < expAmount; i++)
+        {
+            Instantiate(expPrefab, transform.position + new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0), Quaternion.identity);
+        }
     }
 }

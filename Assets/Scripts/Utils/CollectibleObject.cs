@@ -6,6 +6,7 @@ public class CollectibleObject : MonoBehaviour
     [SerializeField] CollectibleType collectibleType; // Type of collectible (Weapon, Experience, Health)
     [SerializeField] Weapon objectWeapon;
     [SerializeField] int healthAmount;
+    [SerializeField] private int experienceAmount;
 
     public void Collect()
     {
@@ -23,6 +24,11 @@ public class CollectibleObject : MonoBehaviour
             PlayerController.Instance.playerCurrentHealth += healthAmount;
         }
 
+        else if (collectibleType == CollectibleType.Experience)
+        {
+            PlayerController.Instance.GetExperience(experienceAmount);
+        }
+
         Destroy(gameObject);
     }
 }
@@ -30,5 +36,6 @@ public class CollectibleObject : MonoBehaviour
 enum CollectibleType
 {
     Weapon,
-    Health
+    Health,
+    Experience
 }

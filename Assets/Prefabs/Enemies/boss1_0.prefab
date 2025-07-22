@@ -134,6 +134,9 @@ MonoBehaviour:
   health: 50
   experienceToGive: 50
   pushTime: 0.1
+  dropHpPrefab: {fileID: 4809990375885533619, guid: 79b69c11179472a4c9980953a7f85e43, type: 3}
+  dropHpChance: 1
+  expPrefab: {fileID: 6740814560263697424, guid: 7bbf056a833fe114481b41543f16fc26, type: 3}
 --- !u!50 &8638334046170065316
 Rigidbody2D:
   serializedVersion: 5

@@ -201,7 +201,7 @@ public class PlayerController : MonoBehaviour
     public void IncreaseMaxHealth(int healthIncrease)
     {
         playerMaxHealth += healthIncrease;
-        UIController.Instance.UpdateHealthSlider();
+        playerCurrentHealth += 5;
     }
 
     private IEnumerator ChangeColorForDamage()
