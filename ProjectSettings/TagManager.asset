@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 3
+  tags:
+  - Enemy
+  - Collectible
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Boundries
+  - Water
+  - UI
+  - Player
+  - Enemies
+  - Collectible
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3488299913
+    locked: 0
+  - name: Weapons
+    uniqueID: 3831245811
+    locked: 0
+  - name: Objects
+    uniqueID: 3899764095
+    locked: 0
+  - name: "Foregr\u0131und"
+    uniqueID: 2333849669
+    locked: 0
+  - name: UI
+    uniqueID: 1331868495
+    locked: 0
+  m_RenderingLayers:
+  - Default
