@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AreaWeapon : Weapon
 {
-    [SerializeField] private GameObject prefab;
+    [SerializeField] private ObjectPooler prefabPool;
     private float spawnCounter;
 
     void Update()
@@ -11,7 +11,11 @@ public class AreaWeapon : Weapon
         if (spawnCounter < 0)
         {
             spawnCounter = stats[weaponLevel].cooldown;
-            Instantiate(prefab, transform.position, transform.rotation, transform);
+            //Instantiate(prefab, transform.position, transform.rotation, transform);
+            GameObject areaWeapon = prefabPool.GetPooledObject();
+            areaWeapon.transform.position = transform.position;
+            areaWeapon.SetActive(true);
+
         }
     }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class LaserWeapon : Weapon
 {
-    public GameObject laserPrefab; // Prefab for the laser
+    public ObjectPooler laserPrefabPool; // Prefab for the laser
 
     private float spawnCounter; // Counter for cooldown
     private int extraLaserCount;
@@ -35,8 +35,13 @@ public class LaserWeapon : Weapon
 
     private void SpawnLaser(Vector3 dir)
     {
-        GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity, transform);
+        GameObject laser = laserPrefabPool.GetPooledObject();
+        laser.transform.position = transform.position;
+        laser.transform.rotation = transform.rotation;
         laser.GetComponent<LaserWeaponPrefab>().SetDirection(dir);
+        laser.SetActive(true);
+
+        //GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity, transform);
     }
 
     private Vector3 GetPrimaryDirection(Vector3 rawDir)

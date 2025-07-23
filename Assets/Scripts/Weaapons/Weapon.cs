@@ -7,6 +7,7 @@ public class Weapon : MonoBehaviour
     public int weaponLevel;
     public List<WeaponStats> stats;
     public Sprite weaponImage;
+    public WeaponSlot weaponSlot; // Reference to the weapon slot in the UI
 
     public void LevelUp()
     {

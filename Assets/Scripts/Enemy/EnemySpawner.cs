@@ -6,7 +6,7 @@ public class EnemySpawner : MonoBehaviour
     [System.Serializable]
     public class Wave
     {
-        public GameObject enemyPrefab;
+        public ObjectPooler pool;
         public float spawnTimer;
         public float spawnInterval;
         public int enemiesPerWave;
@@ -21,8 +21,16 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private Transform enemyParentTransform;
 
+    public int maxEnemyCount = 100;
+    public static int currentEnemyCount = 0;
+
     void Update()
     {
+        if (currentEnemyCount >= maxEnemyCount)
+        {
+            return;
+        }
+
         waves[waveNumber].spawnTimer += Time.deltaTime;
         if (waves[waveNumber].spawnTimer >= waves[waveNumber].spawnInterval)
         {
@@ -50,8 +58,14 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        if (!PlayerController.Instance.gameObject.activeSelf) return;
-        Instantiate(waves[waveNumber].enemyPrefab, RandomSpawner(), transform.rotation, enemyParentTransform);
+        currentEnemyCount++;
+
+        GameObject spawnedObject = waves[waveNumber].pool.GetPooledObject();
+        spawnedObject.transform.position = RandomSpawner();
+        spawnedObject.transform.rotation = transform.rotation;
+        spawnedObject.SetActive(true);
+
+        //Instantiate(waves[waveNumber].enemyPrefab, RandomSpawner(), transform.rotation, enemyParentTransform);
     }
     
     private Vector2 RandomSpawner()

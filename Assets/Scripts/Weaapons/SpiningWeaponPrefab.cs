@@ -10,16 +10,29 @@ public class SpiningWeaponPrefab : MonoBehaviour
 
     public Vector3 axis=new Vector3(0,0,1);
 
+    void Awake()
+    {
+        gameObject.SetActive(false); // Deactivate the prefab initially
+        weapon = GameObject.Find("Spining Weapon").GetComponent<SpiningWeapon>();
+    }
+    /*
     void Start()
     {
-        weapon = GameObject.Find("Spining Weapon").GetComponent<SpiningWeapon>();
-        timer = weapon.stats[weapon.weaponLevel].duration; // Get the duration from the AreaWeapon script
         speed = weapon.stats[weapon.weaponLevel].speed; // Get the spinning speed from the AreaWeapon script
         damage = weapon.stats[weapon.weaponLevel].damage; // Get the damage from the AreaWeapon script
         size = weapon.stats[weapon.weaponLevel].size; // Get the size from the AreaWeapon script
         transform.localScale = new Vector3(size, size, 1); // Set the size of the spinning weapon
 
+    }*/
+
+    void OnEnable()
+    {
+        timer = weapon.stats[weapon.weaponLevel].duration; // Get the duration from the AreaWeapon script
         AudioManager.Instance.PlaySound(AudioManager.Instance.spinningWeapon); // Play the sound effect
+        speed = weapon.stats[weapon.weaponLevel].speed; // Get the spinning speed from the AreaWeapon script
+        damage = weapon.stats[weapon.weaponLevel].damage; // Get the damage from the AreaWeapon script
+        size = weapon.stats[weapon.weaponLevel].size; // Get the size from the AreaWeapon script
+        transform.localScale = new Vector3(size, size, 1); // Set the size of the spinning weapon
     }
 
     private void Update()
@@ -29,7 +42,8 @@ public class SpiningWeaponPrefab : MonoBehaviour
         timer -= Time.deltaTime; // Decrease the timer
         if (timer <= 0)
         {
-            Destroy(gameObject); 
+            //Destroy(gameObject);
+            gameObject.SetActive(false); // Deactivate the prefab instead of destroying it
         }
     }
 

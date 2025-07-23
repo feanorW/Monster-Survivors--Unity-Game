@@ -11,13 +11,26 @@ public class AreaWeaponPrefab : MonoBehaviour
     public List<Enemy> enemiesInRange;
     private float counter;
 
+    private void Awake()
+    {
+        gameObject.SetActive(false); // Deactivate the prefab 
+        weapon = GameObject.Find("Area Weapon").GetComponent<AreaWeapon>();
+    }
+    /*
     void Start()
     {
-        weapon = GameObject.Find("Area Weapon").GetComponent<AreaWeapon>();
         targetSize = Vector3.one * weapon.stats[weapon.weaponLevel].range;
         transform.localScale = Vector3.zero; // Set initial scale to zero
+        targetSize = Vector3.one * weapon.stats[weapon.weaponLevel].range; // Set target size based on weapon stats
         timer = weapon.stats[weapon.weaponLevel].duration; // Get the duration from the AreaWeapon script
+    }*/
+
+    private void OnEnable()
+    {
         AudioManager.Instance.PlaySound(AudioManager.Instance.areaWeaponSpawn); // Play the sound effect
+        transform.localScale = Vector3.zero; // Reset scale to zero when enabled
+        targetSize = Vector3.one * weapon.stats[weapon.weaponLevel].range; // Set target size based on weapon stats
+        timer = weapon.stats[weapon.weaponLevel].duration; // Get the duration from the AreaWeapon script
     }
 
     // Update is called once per frame
@@ -32,7 +45,10 @@ public class AreaWeaponPrefab : MonoBehaviour
 
             if (transform.localScale == Vector3.zero)
             {
-                Destroy(gameObject); // Destroy the object when it has shrunk to zero
+                //Destroy(gameObject); // Destroy the object when it has shrunk to zero
+                gameObject.SetActive(false); // Deactivate the prefab instead of destroying it
+                enemiesInRange.Clear(); // Clear the list of enemies in range
+
 
                 AudioManager.Instance.PlaySound(AudioManager.Instance.areaWeaponDespawn); // Play the destroy sound effect
             }

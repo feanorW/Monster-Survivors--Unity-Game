@@ -7,17 +7,32 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     private Vector2 direction;
     [SerializeField] private float moveSpeed;
-    [SerializeField] private GameObject destroyEffect;
+    private ObjectPooler destroyEffectPool;
     [SerializeField] private float damage;
+    [SerializeField] private float maxHealth;
     [SerializeField] private float health;
     [SerializeField] private int experienceToGive;
     [SerializeField] private float pushTime;
     private float pushCounter;
 
-    [SerializeField] private GameObject dropHpPrefab;
+    [SerializeField] private ObjectPooler dropHpPrefabPool;
     [SerializeField][Range(0f, 1f)] private float dropHpChance;
 
-    [SerializeField] private GameObject expPrefab;
+    [SerializeField] private ObjectPooler expPrefabPool;
+
+    private void OnEnable()
+    {
+        health = maxHealth; // Reset health when the enemy is enabled
+        pushCounter = 0f; // Reset push counter
+        transform.rotation = Quaternion.identity; // Reset rotation
+    }
+
+    private void Start()
+    {
+        destroyEffectPool = GameObject.Find("EnemyDestroyEffectPool").GetComponent<ObjectPooler>();
+        expPrefabPool = GameObject.Find("ExperienceObjectPool").GetComponent<ObjectPooler>();
+        dropHpPrefabPool = GameObject.Find("HealthObjectPool").GetComponent<ObjectPooler>();
+    }
 
     void FixedUpdate()
     {
@@ -52,7 +67,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            rb.linearVelocity = Vector2.zero; // Stop moving if the player is inactive
+            rb.linearVelocity = Vector2.zero;
         }
     }
 
@@ -60,31 +75,30 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerController.Instance.TakeDamage(damage); // Deal damage to the player
+            PlayerController.Instance.TakeDamage(damage); 
         }
     }
 
     public void TakeDamage(float damage)
     {
-        // Handle enemy taking damage here
-        // For example, you can reduce health or destroy the enemy
         health -= damage;
         DamageNumberController.Instance.CreateNumber(damage, transform.position);
-        pushCounter = pushTime; // Reset the push counter
+        pushCounter = pushTime; 
 
-        StartCoroutine(ChangeColor()); // Change color to indicate damage taken
+        StartCoroutine(ChangeColor());
 
         if (health <= 0)
         {
-            AudioManager.Instance.PlayModifiedSound(AudioManager.Instance.enemyDie);
             DestroyEffect();
-            Destroy(gameObject);
             Drop();
+            Debug.Log("Enemy destroyed position is:" + transform.position);
             DropExperienceObject(experienceToGive);
+            EnemySpawner.currentEnemyCount--;
+            gameObject.SetActive(false); // Deactivate the enemy instead of destroying it
         }
         else
         {
-            AudioManager.Instance.PlayModifiedSound(AudioManager.Instance.enemyDamage); // Play enemy damage sound
+            AudioManager.Instance.PlayModifiedSound(AudioManager.Instance.enemyDamage); 
         }
     }
 
@@ -97,26 +111,41 @@ public class Enemy : MonoBehaviour
 
     private void DestroyEffect()
     {
-        if (destroyEffect == null) return;
+        //Instantiate(destroyEffect, transform.position, transform.rotation);
+        GameObject destroyEffect = destroyEffectPool.GetPooledObject();
+        destroyEffect.transform.position = transform.position;
+        destroyEffect.transform.rotation = transform.rotation;
+        destroyEffect.SetActive(true);
 
-        Instantiate(destroyEffect, transform.position, transform.rotation);
+        spriteRenderer.color = Color.white;
+        AudioManager.Instance.PlayModifiedSound(AudioManager.Instance.enemyDie);
     }
 
     private void Drop()
     {
-        if (Random.value <= dropHpChance && dropHpPrefab !=null)
+        if (Random.value <= dropHpChance && dropHpPrefabPool != null)
         {
-            Instantiate(dropHpPrefab, transform.position, Quaternion.identity);
+            //Instantiate(dropHpPrefab, transform.position, Quaternion.identity);
+            GameObject hpObject = dropHpPrefabPool.GetPooledObject();
+            dropHpPrefabPool.transform.position = transform.position + new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
+            hpObject.transform.rotation = Quaternion.identity;
+            hpObject.SetActive(true);
         }
     }
 
     private void DropExperienceObject(int expAmount)
     {
-        if (expPrefab == null || expAmount <= 0) return;
+        if (expPrefabPool == null || expAmount <= 0) return;
 
         for (int i = 0; i < expAmount; i++)
         {
-            Instantiate(expPrefab, transform.position + new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0), Quaternion.identity);
+            //Instantiate(expPrefab, transform.position + new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0), Quaternion.identity);
+
+            GameObject expObject = expPrefabPool.GetPooledObject();
+            expPrefabPool.transform.position = transform.position + new Vector3(Random.Range(-0.25f, 0.25f), Random.Range(-0.25f, 0.25f), 0);
+            Debug.Log("Exp Object Position: " + expPrefabPool.transform.position);
+            expObject.transform.rotation = Quaternion.identity;
+            expObject.SetActive(true);
         }
     }
 }

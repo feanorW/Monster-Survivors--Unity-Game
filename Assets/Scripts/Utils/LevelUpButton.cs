@@ -21,7 +21,7 @@ public class LevelUpButton : MonoBehaviour
     public void SelectUpgrade()
     {
         assignedWeapon.LevelUp();
-        UIController.Instance.UpdateMainWeaponSlot(PlayerController.Instance.activeWeapon); // Update the weapon slot panel in the UI
+        UIController.Instance.UpdateWeaponSlot(assignedWeapon); // Update the weapon slot panel in the UI
         UIController.Instance.LevelUpPanelClose();
         AudioManager.Instance.PlaySound(AudioManager.Instance.selectUpgrade);
     }

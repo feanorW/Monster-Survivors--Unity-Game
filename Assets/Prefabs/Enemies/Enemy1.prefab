@@ -117,7 +117,7 @@ Transform:
   m_GameObject: {fileID: 3435722810729018861}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.237207, y: 2.6820467, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -194,14 +194,14 @@ MonoBehaviour:
   spriteRenderer: {fileID: 4321275499272667492}
   rb: {fileID: 7956658010594554565}
   moveSpeed: 1.5
-  destroyEffect: {fileID: 5929090320753441135, guid: 99cb6e5950f461a4f81247863f4aee6c, type: 3}
   damage: 1
+  maxHealth: 5
   health: 5
   experienceToGive: 1
   pushTime: 0.5
-  dropHpPrefab: {fileID: 0}
+  dropHpPrefabPool: {fileID: 0}
   dropHpChance: 0
-  expPrefab: {fileID: 6740814560263697424, guid: 7bbf056a833fe114481b41543f16fc26, type: 3}
+  expPrefabPool: {fileID: 0}
 --- !u!50 &7956658010594554565
 Rigidbody2D:
   serializedVersion: 5

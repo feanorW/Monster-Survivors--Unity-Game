@@ -23,6 +23,8 @@ public class Magnet : MonoBehaviour
 
                 if (Vector2.Distance(transform.position, hit.transform.position) < 0.1f)
                 {
+                    // Re-enable animation after collection
+                    animation.enabled = true;
                     collectible.Collect(); // Collect the item
                 }
             }

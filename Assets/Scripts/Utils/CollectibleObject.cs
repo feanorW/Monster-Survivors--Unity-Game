@@ -15,8 +15,7 @@ public class CollectibleObject : MonoBehaviour
 
         if (collectibleType == CollectibleType.Weapon)
         {
-            PlayerController.Instance.weapons.Add(objectWeapon);
-            UIController.Instance.AddWeaponToSlot(objectWeapon);
+            PlayerController.Instance.AddWeapon(objectWeapon);
         }
 
         else if (collectibleType == CollectibleType.Health)
@@ -29,7 +28,14 @@ public class CollectibleObject : MonoBehaviour
             PlayerController.Instance.GetExperience(experienceAmount);
         }
 
-        Destroy(gameObject);
+        if (collectibleType == CollectibleType.Weapon)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 }
 

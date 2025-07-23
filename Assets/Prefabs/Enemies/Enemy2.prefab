@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6388581135170943527}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.995605, y: -3.0614314, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -192,14 +192,14 @@ MonoBehaviour:
   spriteRenderer: {fileID: 4783079737795580612}
   rb: {fileID: 8137310459596115668}
   moveSpeed: 1.5
-  destroyEffect: {fileID: 5929090320753441135, guid: 99cb6e5950f461a4f81247863f4aee6c, type: 3}
   damage: 2
-  health: 8
+  maxHealth: 10
+  health: 10
   experienceToGive: 2
   pushTime: 0.5
-  dropHpPrefab: {fileID: 4809990375885533619, guid: 79b69c11179472a4c9980953a7f85e43, type: 3}
+  dropHpPrefabPool: {fileID: 0}
   dropHpChance: 0.05
-  expPrefab: {fileID: 6740814560263697424, guid: 7bbf056a833fe114481b41543f16fc26, type: 3}
+  expPrefabPool: {fileID: 0}
 --- !u!1 &6549768848192638327
 GameObject:
   m_ObjectHideFlags: 0

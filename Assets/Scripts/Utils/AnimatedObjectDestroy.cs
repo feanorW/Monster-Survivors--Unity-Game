@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class AnimatedObjectDestroy : MonoBehaviour
@@ -5,8 +6,14 @@ public class AnimatedObjectDestroy : MonoBehaviour
     [SerializeField] private Animator animator;
 
     // Update is called once per frame
-    void Start()
+    void OnEnable()
     {
-        Destroy(gameObject, animator.GetCurrentAnimatorStateInfo(0).length);
+        StartCoroutine(Deactivate());
+    }
+
+    IEnumerator Deactivate()
+    {
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+        gameObject.SetActive(false);
     }
 }

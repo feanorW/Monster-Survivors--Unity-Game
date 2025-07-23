@@ -114,29 +114,24 @@ public class UIController : MonoBehaviour
         {
             if (!slot.isFull)
             {
+                Image image = slot.GetComponent<Image>();
+                Color c = image.color;
+                c.a = 1;
+                image.color = c;
                 slot.weaponIcon.gameObject.SetActive(true); // Ensure the icon is visible
                 slot.weaponIcon.sprite = weapon.weaponImage;
+                slot.weaponLevel.text = "lvl " + (weapon.weaponLevel + 1);
                 slot.isFull = true;
                 slot.weapon = weapon;
+                weapon.weaponSlot = slot; // Assign the slot to the weapon
                 return; // Exit after filling the first available slot
             }
         }
     }
 
-    public void ChangeWeaponSlot(int newWeaponsSlotNumber, Weapon oldWeapon, Weapon newWeapon)
+    public void UpdateWeaponSlot(Weapon weapon)
     {
-        UpdateMainWeaponSlot(newWeapon);
-        WeaponSlot slot = weaponsSlotsList[newWeaponsSlotNumber-1];
-        slot.weaponIcon.sprite = oldWeapon.weaponImage;
-        slot.weapon = oldWeapon;
-    }
-
-    public void UpdateMainWeaponSlot(Weapon weapon)
-    {
-        WeaponSlot mainSlot = weaponsSlotsList[0];
-        mainSlot.weaponLevel.text = "Level " + (weapon.weaponLevel + 1);
-        mainSlot.weaponIcon.sprite = weapon.weaponImage;
-        mainSlot.isFull = true;
-        mainSlot.weapon = weapon; // Update the weapon reference in the slot
+        WeaponSlot slot = weapon.weaponSlot;
+        slot.weaponLevel.text = "lvl " + (weapon.weaponLevel + 1);
     }
 }

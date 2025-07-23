@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
             UIController.Instance.UpdateHealthSlider(); // UI otomatik güncellenir
         }
     }
+    public float healingTime;
 
     private bool isImmune;
     [SerializeField] private float immuneDuration;
@@ -38,7 +39,7 @@ public class PlayerController : MonoBehaviour
     public List<int> playerLevels;
     [SerializeField] private GameObject levelUpPrefab;
 
-    public Weapon activeWeapon;
+    public Weapon activeWeapon; //starting weapon
 
     public List<Weapon> weapons; // List of all weapons the player can use
 
@@ -70,11 +71,13 @@ public class PlayerController : MonoBehaviour
         }
         playerCurrentHealth = playerMaxHealth;
         UIController.Instance.UpdateExperienceSlider(); // Initialize the experience slider in the UI
-        UIController.Instance.UpdateMainWeaponSlot(activeWeapon); // Initialize the weapon slot panel in the UI
+        UIController.Instance.AddWeaponToSlot(activeWeapon); // Initialize the weapon slot panel in the UI
     }
 
     void Update()
     {
+        HealTimer(healingTime);
+
         float inputX = Input.GetAxisRaw("Horizontal");
         float inputY = Input.GetAxisRaw("Vertical");
         playerMoveDirection = new Vector3(inputX, inputY).normalized;
@@ -103,8 +106,6 @@ public class PlayerController : MonoBehaviour
         {
             isImmune = false; // Reset immune state when timer runs out
         }
-
-        SwitchWeapon(); // Check for weapon switch input
     }
 
     void FixedUpdate()
@@ -164,40 +165,6 @@ public class PlayerController : MonoBehaviour
         UIController.Instance.LevelUpPanelOpen(); // Open the level up panel
     }
 
-    public void SetActiveWeapon(Weapon weapon)
-    {
-        if (weapon != null)
-        {
-            weapon.gameObject.SetActive(true); // Deactivate the previous active weapon
-            activeWeapon = weapon; // Set the active weapon for the player
-        }
-    }
-
-    private void SwitchWeapon()
-    {
-        //Logic is if player press 1 first weapon, 2 for second weapon, etc.
-        if (weapons.Count>1)
-        {
-            string input = Input.inputString;
-            if (int.TryParse(input, out int weaponIndex) && weaponIndex > 0 && weaponIndex <= weapons.Count)
-            {
-                Weapon newWeapon = UIController.Instance.weaponsSlotsList[weaponIndex - 1].weapon; // Get the weapon from the UI slot based on the input
-                UIController.Instance.ChangeWeaponSlot(weaponIndex, activeWeapon, newWeapon);
-                DeactiveWeapon(activeWeapon);
-                SetActiveWeapon(newWeapon);
-                activeWeapon = newWeapon;
-            }
-        }
-    }
-
-    private void DeactiveWeapon(Weapon weapon)
-    {
-        if (weapon != null)
-        {
-            weapon.gameObject.SetActive(false); // Deactivate the weapon if it's not the active one
-        }
-    }
-
     public void IncreaseMaxHealth(int healthIncrease)
     {
         playerMaxHealth += healthIncrease;
@@ -229,5 +196,25 @@ public class PlayerController : MonoBehaviour
         }
 
         vignette.intensity.Override(to); // tam değerle bitir
+    }
+
+    public void HealTimer(float timer)
+    {
+        timer -= Time.deltaTime; // Decrease the healing timer
+        if (healingTime <= 0)
+        {
+            playerCurrentHealth += 1; // Heal the player by 1 health point
+            timer = healingTime; // Reset the healing timer
+        }
+    }
+
+    public void AddWeapon(Weapon weapon)
+    {
+        if (!weapons.Contains(weapon))
+        {
+            weapons.Add(weapon);
+            UIController.Instance.AddWeaponToSlot(weapon);
+            weapon.gameObject.SetActive(true);
+        }
     }
 }

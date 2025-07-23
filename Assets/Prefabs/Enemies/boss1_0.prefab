@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 2110155754256434044}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.328103, y: -1.4920981, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -129,14 +129,14 @@ MonoBehaviour:
   spriteRenderer: {fileID: 1399780930245119012}
   rb: {fileID: 8638334046170065316}
   moveSpeed: 0.5
-  destroyEffect: {fileID: 5929090320753441135, guid: 99cb6e5950f461a4f81247863f4aee6c, type: 3}
   damage: 4
+  maxHealth: 50
   health: 50
   experienceToGive: 50
   pushTime: 0.1
-  dropHpPrefab: {fileID: 4809990375885533619, guid: 79b69c11179472a4c9980953a7f85e43, type: 3}
+  dropHpPrefabPool: {fileID: 0}
   dropHpChance: 1
-  expPrefab: {fileID: 6740814560263697424, guid: 7bbf056a833fe114481b41543f16fc26, type: 3}
+  expPrefabPool: {fileID: 0}
 --- !u!50 &8638334046170065316
 Rigidbody2D:
   serializedVersion: 5
@@ -198,8 +198,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.7916793}
-  m_Radius: 0.7437995
+  m_Offset: {x: 0, y: 0.69349295}
+  m_Radius: 0.64561313
 --- !u!1 &3691884778049001071
 GameObject:
   m_ObjectHideFlags: 0

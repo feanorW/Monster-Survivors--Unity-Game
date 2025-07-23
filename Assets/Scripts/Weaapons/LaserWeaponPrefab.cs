@@ -14,19 +14,28 @@ public class LaserWeaponPrefab : MonoBehaviour
 
     private void Awake()
     {
+        gameObject.SetActive(false); // Deactivate the laser prefab initially
+        weapon = GameObject.Find("Laser Weapon").GetComponent<LaserWeapon>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
     }
 
-    void Start()
+    private void OnEnable()
     {
-        weapon = GameObject.Find("Laser Weapon").GetComponent<LaserWeapon>();
         laserRange = weapon.stats[weapon.weaponLevel].range; // Get the laser range from the weapon stats
         laserHeightSize = weapon.stats[weapon.weaponLevel].size; // Get the laser height size from the weapon stats
-
+        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1f); // Reset the alpha to 1 when the laser is enabled
         AudioManager.Instance.PlaySound(AudioManager.Instance.laserWeapon); // Play the laser spawn sound effect
-
+        capsuleCollider.enabled = true;
         StartCoroutine(IncreaseLaserLengthRoutine()); // Start the coroutine to increase the laser length
+        StartCoroutine(Deactivate()); // Start the coroutine to deactivate the laser after a short time
+    }
+
+    private void Start()
+    {
+
+
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -71,6 +80,8 @@ public class LaserWeaponPrefab : MonoBehaviour
         float fadeDuration = .4f; // Duration for the fade effect
         float initialAlpha = spriteRenderer.color.a; // Get the initial alpha value of the sprite
 
+        capsuleCollider.enabled = false; // Disable the collider to prevent further interactions during the fade
+
         while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.deltaTime;
@@ -82,7 +93,14 @@ public class LaserWeaponPrefab : MonoBehaviour
         }
         spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0f); // Ensure the alpha is set to 0 at the end
 
-        Destroy(gameObject); // Destroy the laser prefab after fading out
+        gameObject.SetActive(false); // Deactivate the laser prefab after fading out
+        //Destroy(gameObject); // Destroy the laser prefab after fading out
+    }
+
+    private IEnumerator Deactivate()
+    {
+        yield return new WaitForSeconds(0.5f); // Wait a short time before deactivating
+        gameObject.SetActive(false); // Deactivate the laser prefab
     }
 
     public void SetDirection(Vector3 direction)
