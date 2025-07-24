@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour
         health = maxHealth; // Reset health when the enemy is enabled
         pushCounter = 0f; // Reset push counter
         transform.rotation = Quaternion.identity; // Reset rotation
+        moveSpeed = Mathf.Abs(moveSpeed); // Ensure move speed is positive
     }
 
     private void Start()
@@ -83,15 +84,16 @@ public class Enemy : MonoBehaviour
     {
         health -= damage;
         DamageNumberController.Instance.CreateNumber(damage, transform.position);
-        pushCounter = pushTime; 
+        pushCounter = pushTime;
 
-        StartCoroutine(ChangeColor());
+        if (gameObject.activeInHierarchy)
+            StartCoroutine(ChangeColor());
 
         if (health <= 0)
         {
+            pushCounter = 0f; // Reset push counter when enemy is destroyed
             DestroyEffect();
             Drop();
-            Debug.Log("Enemy destroyed position is:" + transform.position);
             DropExperienceObject(experienceToGive);
             EnemySpawner.currentEnemyCount--;
             gameObject.SetActive(false); // Deactivate the enemy instead of destroying it
@@ -127,7 +129,7 @@ public class Enemy : MonoBehaviour
         {
             //Instantiate(dropHpPrefab, transform.position, Quaternion.identity);
             GameObject hpObject = dropHpPrefabPool.GetPooledObject();
-            dropHpPrefabPool.transform.position = transform.position + new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
+            hpObject.transform.position = transform.position + new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
             hpObject.transform.rotation = Quaternion.identity;
             hpObject.SetActive(true);
         }
@@ -142,8 +144,7 @@ public class Enemy : MonoBehaviour
             //Instantiate(expPrefab, transform.position + new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0), Quaternion.identity);
 
             GameObject expObject = expPrefabPool.GetPooledObject();
-            expPrefabPool.transform.position = transform.position + new Vector3(Random.Range(-0.25f, 0.25f), Random.Range(-0.25f, 0.25f), 0);
-            Debug.Log("Exp Object Position: " + expPrefabPool.transform.position);
+            expObject.transform.position = transform.position + new Vector3(Random.Range(-0.25f, 0.25f), Random.Range(-0.25f, 0.25f), 0);
             expObject.transform.rotation = Quaternion.identity;
             expObject.SetActive(true);
         }

@@ -285,5 +285,5 @@ MonoBehaviour:
   experienceToGive: 5
   pushTime: 0.3
   dropHpPrefabPool: {fileID: 0}
-  dropHpChance: 0.1
+  dropHpChance: 0.05
   expPrefabPool: {fileID: 0}

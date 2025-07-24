@@ -19,10 +19,13 @@ public class EnemySpawner : MonoBehaviour
     public Transform minPos;
     public Transform maxPos;
 
-    [SerializeField] private Transform enemyParentTransform;
-
     public int maxEnemyCount = 100;
     public static int currentEnemyCount = 0;
+
+    private void Awake()
+    {
+        currentEnemyCount = 0; // Initialize the enemy count
+    }
 
     void Update()
     {

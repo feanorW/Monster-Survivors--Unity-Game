@@ -3,7 +3,7 @@ using UnityEngine;
 public class DamageNumberController : MonoBehaviour
 {
     public static DamageNumberController Instance;
-    public DamageNumber prefab;
+    public ObjectPooler prefabPool;
 
     private void Awake()
     {
@@ -19,7 +19,12 @@ public class DamageNumberController : MonoBehaviour
 
     public void CreateNumber(float value, Vector3 location)
     {
-        DamageNumber damageNumber = Instantiate(prefab, location, transform.rotation, transform);
+        //DamageNumber damageNumber = Instantiate(prefab, location, transform.rotation, transform);
+        GameObject damageNumberObject = prefabPool.GetPooledObject();
+        DamageNumber damageNumber = damageNumberObject.GetComponent<DamageNumber>();
+        damageNumberObject.transform.position = location;
+        damageNumberObject.transform.rotation = transform.rotation;
+        damageNumberObject.SetActive(true); // Activate the damage number object
         damageNumber.SetDamage(value);
     }
 }

@@ -67,10 +67,15 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            AudioManager.Instance.PlaySound(AudioManager.Instance.resume); // Play resume sound
-            Time.timeScale = 1f; // Resume the game
-            UIController.Instance.pausePanel.SetActive(false);
+            ResumeGame(); // Resume the game if already paused
         }
+    }
+
+    public void ResumeGame()
+    {
+        AudioManager.Instance.PlaySound(AudioManager.Instance.resume); // Play resume sound
+        Time.timeScale = 1f; // Resume the game
+        UIController.Instance.pausePanel.SetActive(false); // Hide the pause panel
     }
 
     public void QuitGame()

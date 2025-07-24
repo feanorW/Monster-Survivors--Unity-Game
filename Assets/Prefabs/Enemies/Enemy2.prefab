@@ -198,7 +198,7 @@ MonoBehaviour:
   experienceToGive: 2
   pushTime: 0.5
   dropHpPrefabPool: {fileID: 0}
-  dropHpChance: 0.05
+  dropHpChance: 0.01
   expPrefabPool: {fileID: 0}
 --- !u!1 &6549768848192638327
 GameObject:

@@ -24,10 +24,12 @@ public class PlayerController : MonoBehaviour
         set
         {
             _playerCurrentHealth = Mathf.Clamp(value, 0f, playerMaxHealth);
-            UIController.Instance.UpdateHealthSlider(); // UI otomatik güncellenir
+            if (UIController.Instance != null)
+                UIController.Instance.UpdateHealthSlider();
         }
     }
     public float healingTime;
+    private float healingTimer;
 
     private bool isImmune;
     [SerializeField] private float immuneDuration;
@@ -76,7 +78,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        HealTimer(healingTime);
+        HealTimer();
 
         float inputX = Input.GetAxisRaw("Horizontal");
         float inputY = Input.GetAxisRaw("Vertical");
@@ -198,13 +200,13 @@ public class PlayerController : MonoBehaviour
         vignette.intensity.Override(to); // tam değerle bitir
     }
 
-    public void HealTimer(float timer)
+    public void HealTimer()
     {
-        timer -= Time.deltaTime; // Decrease the healing timer
-        if (healingTime <= 0)
+        healingTimer -= Time.deltaTime; // Decrease the healing timer
+        if (healingTimer <= 0)
         {
             playerCurrentHealth += 1; // Heal the player by 1 health point
-            timer = healingTime; // Reset the healing timer
+            healingTimer = healingTime; // Reset the healing timer
         }
     }
 

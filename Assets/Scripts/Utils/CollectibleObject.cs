@@ -11,16 +11,17 @@ public class CollectibleObject : MonoBehaviour
     public void Collect()
     {
 
-        AudioManager.Instance.PlaySound(AudioManager.Instance.collectObject);
 
         if (collectibleType == CollectibleType.Weapon)
         {
             PlayerController.Instance.AddWeapon(objectWeapon);
+            AudioManager.Instance.PlaySound(AudioManager.Instance.collectObject);
         }
 
         else if (collectibleType == CollectibleType.Health)
         {
             PlayerController.Instance.playerCurrentHealth += healthAmount;
+            AudioManager.Instance.PlaySound(AudioManager.Instance.collectObject);
         }
 
         else if (collectibleType == CollectibleType.Experience)

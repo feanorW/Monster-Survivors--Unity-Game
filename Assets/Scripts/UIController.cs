@@ -73,6 +73,7 @@ public class UIController : MonoBehaviour
 
     public void LevelUpPanelOpen()
     {
+        GameManager.Instance.gameActive = false; // Set the game as inactive
         levelUpPanel.SetActive(true);
         Time.timeScale = 0f; // Pause the game
     }
@@ -81,6 +82,7 @@ public class UIController : MonoBehaviour
     {
         levelUpPanel.SetActive(false);
         Time.timeScale = 1f; // Resume the game
+        GameManager.Instance.gameActive = true; // Set the game as active
     }
 
     public void SetMusicSlider()
