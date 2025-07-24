@@ -4,6 +4,7 @@ using UnityEngine;
 public class CollectibleObject : MonoBehaviour
 {
     [SerializeField] CollectibleType collectibleType; // Type of collectible (Weapon, Experience, Health)
+    public CollectibleType Type => collectibleType; // Public property to access the collectible type
     [SerializeField] Weapon objectWeapon;
     [SerializeField] int healthAmount;
     [SerializeField] private int experienceAmount;
@@ -29,6 +30,12 @@ public class CollectibleObject : MonoBehaviour
             PlayerController.Instance.GetExperience(experienceAmount);
         }
 
+        else if (collectibleType == CollectibleType.Magnet)
+        {
+            PlayerController.Instance.GetComponentInChildren<Magnet>().ActivateBoost();
+            AudioManager.Instance.PlaySound(AudioManager.Instance.collectObject);
+        }
+
         if (collectibleType == CollectibleType.Weapon)
         {
             Destroy(gameObject);
@@ -40,9 +47,10 @@ public class CollectibleObject : MonoBehaviour
     }
 }
 
-enum CollectibleType
+public enum CollectibleType
 {
     Weapon,
     Health,
-    Experience
+    Experience,
+    Magnet
 }

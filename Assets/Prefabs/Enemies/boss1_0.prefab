@@ -137,6 +137,8 @@ MonoBehaviour:
   dropHpPrefabPool: {fileID: 0}
   dropHpChance: 1
   expPrefabPool: {fileID: 0}
+  dropMagnetPool: {fileID: 0}
+  dropMagnetChance: 0.25
 --- !u!50 &8638334046170065316
 Rigidbody2D:
   serializedVersion: 5

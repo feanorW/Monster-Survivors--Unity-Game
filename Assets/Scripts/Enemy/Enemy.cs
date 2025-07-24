@@ -17,8 +17,9 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private ObjectPooler dropHpPrefabPool;
     [SerializeField][Range(0f, 1f)] private float dropHpChance;
-
     [SerializeField] private ObjectPooler expPrefabPool;
+    [SerializeField] private ObjectPooler dropMagnetPool;
+    [SerializeField][Range(0f, 1f)] private float dropMagnetChance;
 
     private void OnEnable()
     {
@@ -33,6 +34,7 @@ public class Enemy : MonoBehaviour
         destroyEffectPool = GameObject.Find("EnemyDestroyEffectPool").GetComponent<ObjectPooler>();
         expPrefabPool = GameObject.Find("ExperienceObjectPool").GetComponent<ObjectPooler>();
         dropHpPrefabPool = GameObject.Find("HealthObjectPool").GetComponent<ObjectPooler>();
+        dropMagnetPool = GameObject.Find("MagnetCollectiblePool").GetComponent<ObjectPooler>();
     }
 
     void FixedUpdate()
@@ -93,7 +95,8 @@ public class Enemy : MonoBehaviour
         {
             pushCounter = 0f; // Reset push counter when enemy is destroyed
             DestroyEffect();
-            Drop();
+            Drop(dropHpChance, dropHpPrefabPool);
+            Drop(dropMagnetChance, dropMagnetPool);
             DropExperienceObject(experienceToGive);
             EnemySpawner.currentEnemyCount--;
             gameObject.SetActive(false); // Deactivate the enemy instead of destroying it
@@ -123,15 +126,15 @@ public class Enemy : MonoBehaviour
         AudioManager.Instance.PlayModifiedSound(AudioManager.Instance.enemyDie);
     }
 
-    private void Drop()
+    private void Drop(float chance, ObjectPooler dropPool)
     {
-        if (Random.value <= dropHpChance && dropHpPrefabPool != null)
+        if (Random.value <= chance && dropPool != null)
         {
             //Instantiate(dropHpPrefab, transform.position, Quaternion.identity);
-            GameObject hpObject = dropHpPrefabPool.GetPooledObject();
-            hpObject.transform.position = transform.position + new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
-            hpObject.transform.rotation = Quaternion.identity;
-            hpObject.SetActive(true);
+            GameObject dropObject = dropPool.GetPooledObject();
+            dropObject.transform.position = transform.position + new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
+            dropObject.transform.rotation = Quaternion.identity;
+            dropObject.SetActive(true);
         }
     }
 
