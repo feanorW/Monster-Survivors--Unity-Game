@@ -28,8 +28,6 @@ public class PlayerController : MonoBehaviour
                 UIController.Instance.UpdateHealthSlider();
         }
     }
-    public float healingTime;
-    private float healingTimer;
 
     private bool isImmune;
     [SerializeField] private float immuneDuration;
@@ -78,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        HealTimer();
+        if (!GameManager.Instance.gameActive) return;
 
         float inputX = Input.GetAxisRaw("Horizontal");
         float inputY = Input.GetAxisRaw("Vertical");
@@ -122,7 +120,7 @@ public class PlayerController : MonoBehaviour
             isImmune = true; // Set immune state to true
             immuneTimer = immuneDuration; // Reset the immune timer
             AudioManager.Instance.PlayModifiedSound(AudioManager.Instance.playerDamage); // Play player hurt sound
-            playerCurrentHealth -= damage;
+            playerCurrentHealth = playerCurrentHealth - damage;
             StartCoroutine(ChangeColorForDamage()); // Change color for damage effect
 
             if (playerCurrentHealth <= 0)
@@ -170,7 +168,7 @@ public class PlayerController : MonoBehaviour
     public void IncreaseMaxHealth(int healthIncrease)
     {
         playerMaxHealth += healthIncrease;
-        playerCurrentHealth += 5;
+        playerCurrentHealth = playerCurrentHealth + 5;
     }
 
     private IEnumerator ChangeColorForDamage()
@@ -198,16 +196,6 @@ public class PlayerController : MonoBehaviour
         }
 
         vignette.intensity.Override(to); // tam değerle bitir
-    }
-
-    public void HealTimer()
-    {
-        healingTimer -= Time.deltaTime; // Decrease the healing timer
-        if (healingTimer <= 0)
-        {
-            playerCurrentHealth += 1; // Heal the player by 1 health point
-            healingTimer = healingTime; // Reset the healing timer
-        }
     }
 
     public void AddWeapon(Weapon weapon)

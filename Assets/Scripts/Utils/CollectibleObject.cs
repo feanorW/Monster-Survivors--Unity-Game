@@ -21,7 +21,7 @@ public class CollectibleObject : MonoBehaviour
 
         else if (collectibleType == CollectibleType.Health)
         {
-            PlayerController.Instance.playerCurrentHealth += healthAmount;
+            PlayerController.Instance.playerCurrentHealth = PlayerController.Instance.playerCurrentHealth + healthAmount;
             AudioManager.Instance.PlaySound(AudioManager.Instance.collectObject);
         }
 

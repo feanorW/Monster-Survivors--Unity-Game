@@ -12,16 +12,20 @@ public class LaserWeaponPrefab : MonoBehaviour
     private float laserRange; // Range of the laser
     private float laserHeightSize;
 
+    private Vector2 originalLaserSize;
+
     private void Awake()
     {
         gameObject.SetActive(false); // Deactivate the laser prefab initially
         weapon = GameObject.Find("Laser Weapon").GetComponent<LaserWeapon>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
+        originalLaserSize = spriteRenderer.size; // Store the original size of the laser sprite
     }
 
     private void OnEnable()
     {
+        spriteRenderer.size = originalLaserSize; // Reset the laser size to its original size when enabled
         laserRange = weapon.stats[weapon.weaponLevel].range; // Get the laser range from the weapon stats
         laserHeightSize = weapon.stats[weapon.weaponLevel].size; // Get the laser height size from the weapon stats
         spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1f); // Reset the alpha to 1 when the laser is enabled
@@ -29,13 +33,6 @@ public class LaserWeaponPrefab : MonoBehaviour
         capsuleCollider.enabled = true;
         StartCoroutine(IncreaseLaserLengthRoutine()); // Start the coroutine to increase the laser length
         StartCoroutine(Deactivate()); // Start the coroutine to deactivate the laser after a short time
-    }
-
-    private void Start()
-    {
-
-
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -69,7 +66,7 @@ public class LaserWeaponPrefab : MonoBehaviour
         capsuleCollider.size = new Vector2(laserRange, laserHeightSize); // Ensure the collider reaches its full size
         capsuleCollider.offset = new Vector2((laserRange / 2f), capsuleCollider.offset.y); // Adjust the collider offset to match the full size
 
-        yield return new WaitForSeconds(0.1f); // Wait a short time before starting the fade effect
+        yield return new WaitForSeconds(0.2f); // Wait a short time before starting the fade effect
 
         StartCoroutine(SlowFadeRoutine()); // Start the slow fade routine after the laser has fully grown
     }
@@ -99,7 +96,7 @@ public class LaserWeaponPrefab : MonoBehaviour
 
     private IEnumerator Deactivate()
     {
-        yield return new WaitForSeconds(0.5f); // Wait a short time before deactivating
+        yield return new WaitForSeconds(0.6f); // Wait a short time before deactivating
         gameObject.SetActive(false); // Deactivate the laser prefab
     }
 

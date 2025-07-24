@@ -21,8 +21,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] private ObjectPooler dropMagnetPool;
     [SerializeField][Range(0f, 1f)] private float dropMagnetChance;
 
+    private bool isDead = false; // To prevent multiple damage calls
+
     private void OnEnable()
     {
+        isDead = false; // Reset dead state when the enemy is enabled
         health = maxHealth; // Reset health when the enemy is enabled
         pushCounter = 0f; // Reset push counter
         transform.rotation = Quaternion.identity; // Reset rotation
@@ -84,6 +87,8 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        if (isDead) return; // Çoklu çağrıyı engelle
+
         health -= damage;
         DamageNumberController.Instance.CreateNumber(damage, transform.position);
         pushCounter = pushTime;
@@ -93,6 +98,7 @@ public class Enemy : MonoBehaviour
 
         if (health <= 0)
         {
+            isDead = true; // Set the enemy as dead to prevent further damage
             pushCounter = 0f; // Reset push counter when enemy is destroyed
             DestroyEffect();
             Drop(dropHpChance, dropHpPrefabPool);

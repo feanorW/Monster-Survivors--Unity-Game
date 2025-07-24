@@ -15,6 +15,12 @@ public class LevelUpButton : MonoBehaviour
         weaponDescription.text = weapon.stats[weapon.weaponLevel].description;
         weaponIcon.sprite = weapon.weaponImage;
         assignedWeapon = weapon;
+
+        if(weaponDescription.text == "Final Upgrade")
+        {
+            GetComponent<Button>().interactable = false;
+        }
+
         gameObject.SetActive(true);
     }
 

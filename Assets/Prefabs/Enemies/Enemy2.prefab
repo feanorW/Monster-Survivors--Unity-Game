@@ -198,8 +198,10 @@ MonoBehaviour:
   experienceToGive: 2
   pushTime: 0.5
   dropHpPrefabPool: {fileID: 0}
-  dropHpChance: 0.01
+  dropHpChance: 0
   expPrefabPool: {fileID: 0}
+  dropMagnetPool: {fileID: 0}
+  dropMagnetChance: 0
 --- !u!1 &6549768848192638327
 GameObject:
   m_ObjectHideFlags: 0

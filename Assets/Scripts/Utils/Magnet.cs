@@ -28,7 +28,7 @@ public class Magnet : MonoBehaviour
             // Eğer boost modundaysa sadece HP ve XP çek
             if (boostTimer > 0)
             {
-                if (collectible.Type != CollectibleType.Experience)
+                if (collectible.Type != CollectibleType.Experience && collectible.Type != CollectibleType.Health)
                     continue;
             }
 

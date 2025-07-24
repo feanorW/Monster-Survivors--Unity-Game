@@ -636,6 +636,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1044932574}
+  - component: {fileID: 1044932575}
   m_Layer: 0
   m_Name: Audio Controller
   m_TagString: Untagged
@@ -659,6 +660,32 @@ Transform:
   - {fileID: 80930257}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1044932575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044932573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa67d42af96299748adc47095158142d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pause: {fileID: 0}
+  resume: {fileID: 0}
+  enemyDie: {fileID: 0}
+  selectUpgrade: {fileID: 0}
+  areaWeaponSpawn: {fileID: 0}
+  areaWeaponDespawn: {fileID: 0}
+  gameOver: {fileID: 0}
+  enemyDamage: {fileID: 0}
+  playerDamage: {fileID: 0}
+  playerDie: {fileID: 0}
+  levelUp: {fileID: 0}
+  laserWeapon: {fileID: 0}
+  spinningWeapon: {fileID: 0}
+  collectObject: {fileID: 0}
 --- !u!1 &1118119769
 GameObject:
   m_ObjectHideFlags: 0
@@ -1572,6 +1599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78f88be5ab56ca54a9e16cdb67a23c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: 5308db1dd88c7c841af97728119c713e, type: 2}
 --- !u!1001 &2030618875
 PrefabInstance:
   m_ObjectHideFlags: 0
